@@ -1,7 +1,6 @@
-
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, UIManager, ActivityIndicator, Keyboard, Platform } from 'react-native';
-import { API, API_LOGIN } from '../constants/API';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, UIManager, LayoutAnimation, ActivityIndicator, Keyboard } from 'react-native';
+import { API, API_LOGIN, API_SIGNUP } from '../constants/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -15,7 +14,8 @@ export default function SignInSignUpScreen({ navigation }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errorText, setErrorText] = useState('')
-  const [isLogIn, setIsLogIn] = useState('true')
+
+  const [isLogIn, setIsLogIn] = useState(true)
 
   async function login() {
     console.log("---- Login time ----");
@@ -31,31 +31,52 @@ export default function SignInSignUpScreen({ navigation }) {
       // console.log(response);
       await AsyncStorage.setItem("token", response.data.access_token);
       setLoading(false);
-      setUsername("");
-      setPassword("");
       navigation.navigate("Logged In");
     } catch (error) {
       setLoading(false);
       console.log("Error logging in!");
       console.log(error);
       setErrorText(error.response.data.description);
-      if (error.response.status = 404) {
-        setErrorText("User does not exist")
-      }
     }
   }
 
+  async function signUp() {
+    if (password != confirmPassword) {
+      setErrorText("Your passwords don't match. Check and try again.")
+    } else {
+      try {
+        setLoading(true);
+        const response = await axios.post(API + API_SIGNUP, {
+          username,
+          password,
+        });
+        if (response.data.Error) {
+          // We have an error message for if the user already exists
+          setErrorText(response.data.Error);
+          setLoading(false);
+        } else {
+          console.log("Success signing up!");
+          setLoading(false);
+          login();
+        }
+      } catch (error) {
+        setLoading(false);
+        console.log("Error logging in!");
+        console.log(error.response);
+        setErrorText(error.response.data.description);
+      }
+    }
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-      {isLogIn ? "Log In" : "Sign Up"}
+        {isLogIn ? "Log In" : "Sign Up"}
       </Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.textInput}
           placeholder="Username:"
           placeholderTextColor="#003f5c"
-          value={username}
           onChangeText={(username) => setUsername(username)}
         />
       </View>
@@ -66,14 +87,25 @@ export default function SignInSignUpScreen({ navigation }) {
           placeholder="Password:"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
-          value={password}
           onChangeText={(pw) => setPassword(pw)}
         />
       </View>
+
+      {isLogIn ? <View/> :
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Confirm Password:"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(pw) => setConfirmPassword(pw)}
+          />
+        </View>}
+
       <View/>
       <View>
         <View style={{flexDirection: "row"}}>
-          <TouchableOpacity style={styles.button} onPress={login}>
+          <TouchableOpacity style={styles.button} onPress={ isLogIn ? login : signUp}>
             <Text style={styles.buttonText}> {isLogIn ? "Log In" : "Sign Up"} </Text>
           </TouchableOpacity>
           {loading ? <ActivityIndicator style={{ marginLeft: 10 }}/> : <View/>}
@@ -84,6 +116,11 @@ export default function SignInSignUpScreen({ navigation }) {
       </Text>
       <TouchableOpacity
         onPress={() => {
+          LayoutAnimation.configureNext({
+            duration: 700,
+            create: { type: 'linear', property: 'opacity' },
+            update: { type: 'spring', springDamping: 0.4 }
+          });
           setIsLogIn(!isLogIn);
           setErrorText("");
         }}>
