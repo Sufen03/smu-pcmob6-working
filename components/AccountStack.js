@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
-import AccountScreen from "./AccountScreen";
-import CameraScreen from './CameraScreen';
+import AccountScreen from "../screens/AccountScreen";
+import CameraScreen from '../screens/CameraScreen';
 import { lightStyles } from '../styles/commonStyles';
 
 const Stack = createStackNavigator();
@@ -15,7 +15,8 @@ export default function AccountStack() {
     <Stack.Screen component={AccountScreen} name="Account" options={{
         title: "Your Account",
         headerStyle: styles.header,
-        headerTitleStyle: styles.headerTitle
+        headerTitleStyle: styles.headerTitle,
+        headerLeft: null
       }} />
       <Stack.Screen component={CameraScreen} name="Camera" options={{
         title: "Take a photo",

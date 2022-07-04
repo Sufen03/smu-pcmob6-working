@@ -14,8 +14,8 @@ export default function SignInSignUpScreen({ navigation }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errorText, setErrorText] = useState('')
-
   const [isLogIn, setIsLogIn] = useState(true)
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   async function login() {
     console.log("---- Login time ----");
@@ -105,8 +105,13 @@ export default function SignInSignUpScreen({ navigation }) {
       <View/>
       <View>
         <View style={{flexDirection: "row"}}>
-          <TouchableOpacity style={styles.button} onPress={ isLogIn ? login : signUp}>
-            <Text style={styles.buttonText}> {isLogIn ? "Log In" : "Sign Up"} </Text>
+          <TouchableOpacity 
+          style={styles.button} 
+          onPress={ isLogIn ? login : signUp}>
+            <Text style={styles.buttonText}> 
+            {isLogIn ? "Log In" 
+            : "Sign Up"} 
+            </Text>
           </TouchableOpacity>
           {loading ? <ActivityIndicator style={{ marginLeft: 10 }}/> : <View/>}
         </View>
@@ -124,7 +129,11 @@ export default function SignInSignUpScreen({ navigation }) {
           setIsLogIn(!isLogIn);
           setErrorText("");
         }}>
-          <Text style={styles.switchText}> {isLogIn ? "No account? Sign up now." : "Already have an account? Log in here."}</Text>
+          <Text style={styles.switchText}> 
+          {isLogIn 
+          ? "No account? Sign up now." 
+          : "Already have an account? Log in here."}
+          </Text>
       </TouchableOpacity>
     </View>
   );
