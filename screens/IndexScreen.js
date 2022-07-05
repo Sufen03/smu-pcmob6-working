@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  RefreshControl,
-} from "react-native";
+import { Text, View, TouchableOpacity, FlatList, RefreshControl} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -13,6 +7,7 @@ import { API, API_POSTS } from "../constants/API";
 import { lightStyles } from "../styles/commonStyles";
 
 export default function IndexScreen({ navigation, route }) {
+
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const styles = lightStyles;
@@ -22,15 +17,15 @@ export default function IndexScreen({ navigation, route }) {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity onPress={addPost}>
-          <FontAwesome
-            name="plus"
-            size={24}
-            style={{ color: styles.headerTint, marginRight: 15 }}
-          />
+          <FontAwesome name="plus" size={24} style={{ color: styles.headerTint, marginRight: 15 }} />
         </TouchableOpacity>
       ),
     });
   });
+
+  useEffect(() => {
+    getPosts();
+  }, []);
 
   useEffect(() => {
     console.log("Setting up nav listener");
@@ -48,13 +43,13 @@ export default function IndexScreen({ navigation, route }) {
     try {
       const response = await axios.get(API + API_POSTS, {
         headers: { Authorization: `JWT ${token}` },
-      });
+      })
       console.log(response.data);
       setPosts(response.data);
-      return "completed";
+      return "completed"
     } catch (error) {
       console.log(error.response.data);
-      if ((error.response.data.error = "Invalid token")) {
+      if (error.response.data.error = "Invalid token") {
         navigation.navigate("SignInSignUp");
       }
     }
@@ -62,20 +57,22 @@ export default function IndexScreen({ navigation, route }) {
 
   async function onRefresh() {
     setRefreshing(true);
-    const response = await getPosts();
+    const response = await getPosts()
     setRefreshing(false);
   }
 
-  function addPost() {}
+  function addPost() {
+    navigation.navigate("Add")
+  }
 
-  function deletePost() {}
+  function deletePost() {
+    
+  }
 
   // The function to render each row in our FlatList
   function renderItem({ item }) {
     return (
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Details", { post: item })}
-      >
+      <TouchableOpacity onPress={() => navigation.navigate("Details", {id: item.id})}>
         <View
           style={{
             padding: 10,
@@ -85,8 +82,7 @@ export default function IndexScreen({ navigation, route }) {
             borderBottomWidth: 1,
             flexDirection: "row",
             justifyContent: "space-between",
-          }}
-        >
+          }}>
           <Text style={styles.text}>{item.title}</Text>
           <TouchableOpacity onPress={deletePost}>
             <FontAwesome name="trash" size={20} color="#a80000" />
@@ -103,13 +99,10 @@ export default function IndexScreen({ navigation, route }) {
         renderItem={renderItem}
         style={{ width: "100%" }}
         keyExtractor={(item) => item.id.toString()}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            colors={["#9Bd35A", "#689F38"]}
-          />
-        }
+        refreshControl={<RefreshControl
+          colors={["#9Bd35A", "#689F38"]}
+          refreshing={refreshing}
+          onRefresh={onRefresh}/>}
       />
     </View>
   );

@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
+import { API, API_CREATE } from "../constants/API";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { lightStyles, commonStyles } from "../styles/commonStyles";
 
 export default function CreateScreen({ navigation }) {
@@ -7,7 +16,24 @@ export default function CreateScreen({ navigation }) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  function savePost() {}
+  async function savePost() {
+    const post = {
+      title: title,
+      content: content,
+    };
+    const token = await AsyncStorage.getItem("token");
+    try {
+      console.log(token);
+      const response = await axios.post(API + API_CREATE, post, {
+        headers: { Authorization: `JWT ${token}` },
+      });
+      console.log(response.data);
+      navigation.navigate("Index", { post: post });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={{ margin: 20 }}>
