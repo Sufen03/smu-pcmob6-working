@@ -95,7 +95,7 @@ export default function IndexScreen({ navigation, route }) {
           }}>
           <Text style={styles.text}>{item.title}</Text>
           <TouchableOpacity onPress={() => deletePost(item.id)}>
-            <FontAwesome name="trash" size={20} color="#a80000" />
+            <FontAwesome name="trash" size={26} color="#a80000" />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
