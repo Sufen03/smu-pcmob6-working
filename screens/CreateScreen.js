@@ -16,6 +16,7 @@ export default function CreateScreen({ navigation }) {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  
   async function savePost() {
     const post = {
       title: title,
