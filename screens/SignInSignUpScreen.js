@@ -142,7 +142,7 @@ export default function SignInSignUpScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'lavender',
     alignItems: 'center',
     justifyContent: 'center',
   },

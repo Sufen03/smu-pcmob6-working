@@ -25,24 +25,25 @@ export const commonStyles = {
 export const lightStyles = {
   container: {
     flex: 1,
-    backgroundColor: "#ffc",
+    backgroundColor: "lavender",
   },
   text: {
     color: "black",
+    fontSize: 22,
   },
   header: {
-    backgroundColor: "yellow",
+    backgroundColor: "purple",
     height: 100,
     shadowColor: "black",
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.9,
     shadowRadius: 5,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#f55"
+    color: "cyan"
   },
-  headerTint: "#f55"
+  headerTint: "cyan"
 };
 
 export const darkStyles = {
@@ -61,9 +62,9 @@ export const darkStyles = {
     shadowRadius: 5,
   },
   headerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#f4d47c"
+    color: "#f4d4"
   },
-  headerTint: "#f4d47c"
+  headerTint: "#f4d4"
 }

@@ -55,10 +55,10 @@ export default function AccountScreen({ navigation }) {
 
   return (
     <View style={[styles.container, { alignItems: "center" }]}>
-      <Text style={{marginTop: 20}}>
+      <Text style={{marginTop: 20, fontSize: 20}}>
         Account Screen
       </Text>
-      <Text>
+      <Text style={{fontWeight: '700', fontSize: 18}}>
         {username}
       </Text>
     </View>
