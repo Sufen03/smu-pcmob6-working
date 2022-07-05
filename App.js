@@ -31,10 +31,14 @@ export default function App() {
   ) : (
     <NavigationContainer>
         <Stack.Navigator
-          mode="modal"
           headerMode="none"
-          initialRouteName={signedIn ? "Logged In" : "SignInSignUp"}
-          animationEnabled={false}>
+          //initialRouteName={signedIn ? "Logged In" : "SignInSignUp"}
+          initialRouteName="SignInSignUp"
+          screenOptions={{
+            animationEnabled : false,
+          }}
+        >
+          
         <Stack.Screen component={LoggedInStack} name="Logged In" />
         <Stack.Screen component={SignInSignUpScreen} name="SignInSignUp" />
       </Stack.Navigator>
