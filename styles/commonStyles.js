@@ -32,7 +32,7 @@ export const lightStyles = {
     fontSize: 22,
   },
   header: {
-    backgroundColor: "purple",
+    backgroundColor: "#9370db",
     height: 100,
     shadowColor: "black",
     shadowOpacity: 0.9,
