@@ -7,7 +7,7 @@ import { API, API_POSTS } from "../constants/API";
 import { useSelector } from "react-redux";
 
 export default function ShowScreen({ navigation, route }) {
-  const token = useSelector((state)=>state.auth.token)
+  const token = useSelector((state)=>state.auth.token);
   const [post, setPost] = useState({title: "", content: ""});
   const styles = {...lightStyles, ...commonStyles};
 
