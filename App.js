@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import SignInSignUpScreen from "./screens/SignInSignUpScreen";
 import LoggedInStack from "./components/LoggedInTabStack";
 import { Provider, useSelector } from "react-redux";

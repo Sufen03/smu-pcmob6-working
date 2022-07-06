@@ -3,13 +3,15 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, UIManager, LayoutA
 import { API, API_LOGIN, API_SIGNUP } from '../constants/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { logInAction } from '../redux/ducks/blogAuth';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 } //Needs to be manually enabled for android
 
 export default function SignInSignUpScreen({ navigation }) {
-
+  const dispatch = useDispatch();
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -29,7 +31,7 @@ export default function SignInSignUpScreen({ navigation }) {
       });
       console.log("Success logging in!");
       // console.log(response);
-      await AsyncStorage.setItem("token", response.data.access_token);
+      dispatch({...logInAction(), payload: response.data.access_token});
       setLoading(false);
       navigation.navigate("Logged In");
     } catch (error) {
