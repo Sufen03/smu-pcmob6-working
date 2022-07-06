@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { commonStyles, lightStyles } from "../styles/commonStyles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { API, API_POSTS } from "../constants/API";
+import { useSelector } from "react-redux";
 
 export default function ShowScreen({ navigation, route }) {
-
+  const token = useSelector((state)=>state.auth.token)
   const [post, setPost] = useState({title: "", content: ""});
   const styles = {...lightStyles, ...commonStyles};
 
@@ -26,7 +26,6 @@ export default function ShowScreen({ navigation, route }) {
   }, [])
 
   async function getPost() {
-    const token = await AsyncStorage.getItem("token");
     const id = route.params.id
     console.log(id)
     try {
