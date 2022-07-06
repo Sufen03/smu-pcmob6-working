@@ -8,7 +8,7 @@ export function logInAction() {
     return { type: LOG_IN };
 }
 
-export function logInAction() {
+export function logOutAction() {
     return { type: LOG_OUT };
 }
 
