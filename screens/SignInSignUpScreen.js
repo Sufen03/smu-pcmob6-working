@@ -154,7 +154,8 @@ const styles = StyleSheet.create({
   switchText: {
     fontWeight: '400',
     fontSize: 20, 
-    marginTop: 20
+    marginTop: 20,
+    textDecorationLine: 'underline',
   },
   inputView: {
     backgroundColor: "#FFC0CB",
@@ -170,17 +171,17 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#6495ed',
     borderRadius: 25,
   },
   buttonText: {
     fontWeight: '400',
     fontSize: 20, 
     margin: 20,
-    color: 'white'
+    color: 'black'
   },
   errorText: {
-    fontSize: 15,
+    fontSize: 18,
     color: 'red',
     marginTop: 20
   }
