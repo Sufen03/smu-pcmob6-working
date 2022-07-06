@@ -12,7 +12,6 @@ export default function IndexScreen({ navigation, route }) {
   const [refreshing, setRefreshing] = useState(false);
   const styles = lightStyles;
 
-  // This is to set up the top right button
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (

@@ -32,7 +32,6 @@ export default function AccountScreen({ navigation }) {
       } else {
         console.log(error);
       }
-      // We should probably go back to the login screen???
     }
   }
 
