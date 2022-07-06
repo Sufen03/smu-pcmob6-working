@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
-import { commonStyles, lightStyles } from "../styles/commonStyles";
+import { useSelector } from "react-redux";
+import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API, API_POSTS } from "../constants/API";
 import axios from "axios";
 
 export default function EditScreen({ navigation, route }) {
 
-  const styles = { ...lightStyles, ...commonStyles }
-
+  const isDark = useSelector((state) => state.accountPrefs.isDark);
+  const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 

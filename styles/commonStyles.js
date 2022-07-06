@@ -64,7 +64,7 @@ export const darkStyles = {
   headerTitle: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#f4d4"
+    color: "cyan"
   },
-  headerTint: "#f4d4"
+  headerTint: "cyan"
 }

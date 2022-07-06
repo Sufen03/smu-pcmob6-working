@@ -3,14 +3,15 @@ import { Text, View, TouchableOpacity, FlatList, RefreshControl} from "react-nat
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { API, API_POSTS } from "../constants/API";
-import { lightStyles } from "../styles/commonStyles";
+import { darkStyles, lightStyles } from "../styles/commonStyles";
 import { useSelector } from 'react-redux'
 
 export default function IndexScreen({ navigation, route }) {
   const token = useSelector((state)=>state.auth.token)
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
-  const styles = lightStyles;
+  const isDark = useSelector((state) => state.accountPrefs.isDark);
+  const styles = isDark ? darkStyles : lightStyles;
 
   useEffect(() => {
     navigation.setOptions({

@@ -7,17 +7,20 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
-import { commonStyles, lightStyles } from "../styles/commonStyles";
+import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
+import { lightModeAction, darkModeAction } from "../redux/ducks/accountPref";
 
 export default function AccountScreen({ navigation }) {
   const [username, setUsername] = useState(null);
 
-  const styles = { ...commonStyles, ...lightStyles };
-
   const token = useSelector((state) => state.auth.token);
 
+  const isDark = useSelector((state) => state.accountPrefs.isDark);
+  const dispatch = useDispatch();
+
+  const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
   async function getUsername() {
     console.log("---- Getting user name ----");
     console.log(`Token is ${token}`);
@@ -44,6 +47,10 @@ export default function AccountScreen({ navigation }) {
 
   function signOut() {
     navigation.navigate("SignInSignUp");
+  }
+
+  function switchMode() {
+    dispatch(isDark ? lightModeAction() : darkModeAction());
   }
 
   useEffect(() => {
@@ -79,7 +86,7 @@ export default function AccountScreen({ navigation }) {
         }}
       >
         <Text style={[styles.content, styles.text]}> Dark Mode? </Text>
-        <Switch />
+        <Switch value={isDark} onChange={switchMode} />
       </View>
       <TouchableOpacity style={[styles.button]} onPress={signOut}>
         <Text style={styles.buttonText}>Sign Out</Text>
