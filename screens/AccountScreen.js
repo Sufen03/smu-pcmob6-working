@@ -1,6 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
 import { commonStyles, lightStyles } from "../styles/commonStyles";
@@ -32,6 +38,7 @@ export default function AccountScreen({ navigation }) {
       } else {
         console.log(error);
       }
+      // We should probably go back to the login screen???
     }
   }
 
@@ -53,12 +60,30 @@ export default function AccountScreen({ navigation }) {
 
   return (
     <View style={[styles.container, { alignItems: "center" }]}>
-      <Text style={{marginTop: 20, fontSize: 20}}>
-        Account Screen
+      <Text style={[styles.title, styles.text, { marginTop: 30 }]}>
+        {" "}
+        Hello {username} !
       </Text>
-      <Text style={{fontWeight: '700', fontSize: 18}}>
-        {username}
-      </Text>
+      <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
+        <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
+          {" "}
+          No profile picture. Click to take one.{" "}
+        </Text>
+      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          margin: 20,
+        }}
+      >
+        <Text style={[styles.content, styles.text]}> Dark Mode? </Text>
+        <Switch />
+      </View>
+      <TouchableOpacity style={[styles.button]} onPress={signOut}>
+        <Text style={styles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 }
