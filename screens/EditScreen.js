@@ -108,7 +108,7 @@ export default function EditScreen({ navigation, route }) {
   // );
 }
 
-const styles = StyleSheet.create({});
+//const styles = StyleSheet.create({});
 
 const additionalStyles = StyleSheet.create({
   input: {
