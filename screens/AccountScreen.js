@@ -6,11 +6,12 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
+import { changeModeAction } from "../redux/ducks/accountPref";
 import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
-import { lightModeAction, darkModeAction } from "../redux/ducks/accountPref";
 
 export default function AccountScreen({ navigation }) {
   const [username, setUsername] = useState(null);
@@ -48,7 +49,8 @@ export default function AccountScreen({ navigation }) {
   }
 
   function switchMode() {
-    dispatch(isDark ? lightModeAction() : darkModeAction());
+    
+    dispatch(changeModeAction());
   }
 
   useEffect(() => {
