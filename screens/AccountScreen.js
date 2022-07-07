@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   View,
   Image,
+  Animated,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
 import { changeModeAction } from "../redux/ducks/accountPref";
 import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 import { logOutAction } from "../redux/ducks/blogAuth";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 
 export default function AccountScreen({ navigation }) {
@@ -22,6 +24,23 @@ export default function AccountScreen({ navigation }) {
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const dispatch = useDispatch();
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
+  const picSize = new Animated.Value(200);
+
+  function changePicSize() {
+    Animated.loop(
+      Animated.timing
+      (picSize, {
+      toValue: 1,
+      duration: 500,
+    })).start()
+    Animated.spring(picSize, {
+      toValue: 300,
+      duration: 3500,
+      friction: 2,
+      tension: 140,
+      useNativeDriver: false
+    }).start()
+  }
   
   async function getUsername() {
     console.log("---- Getting user name ----");
@@ -75,10 +94,12 @@ export default function AccountScreen({ navigation }) {
         {" "}
         Hello {username} !
       </Text>
-      <Image
+      <TouchableWithoutFeedback onPress={changePicSize}>
+      <Animated.Image
         source={{ uri: profilePicture }}
-        style={{ width: 250, height: 250, borderRadius: 100 }}
+        style={{ width: picSize, height: picSize, borderRadius: 200 }}
       />
+      </TouchableWithoutFeedback>
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
           {" "}
