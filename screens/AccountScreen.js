@@ -14,13 +14,11 @@ import { lightModeAction, darkModeAction } from "../redux/ducks/accountPref";
 
 export default function AccountScreen({ navigation }) {
   const [username, setUsername] = useState(null);
-
   const token = useSelector((state) => state.auth.token);
-
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const dispatch = useDispatch();
-
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
+  
   async function getUsername() {
     console.log("---- Getting user name ----");
     console.log(`Token is ${token}`);
