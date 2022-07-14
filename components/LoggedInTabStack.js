@@ -4,6 +4,7 @@ import BlogStack from '../components/BlogStack';
 import AccountStack from '../components/AccountStack';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { useSelector } from "react-redux";
+import { Image } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +31,18 @@ export default function LoggedInStack() {
         },
       })}
     >
-      <Tab.Screen name="Blog" component={BlogStack} />
+      <Tab.Screen name="Blog" component={BlogStack} options={{
+            title: 'My Blog',
+            tabBarIcon: ({size,focused,black}) => {
+              return (
+                <Image
+                  style={{ width: 80, height: 50 }}
+                  source={require('../assets/imageedit_1_3847856363.png')}
+                />
+              );
+            },
+          }}
+        />
       <Tab.Screen name="Settings" component={AccountStack} />
     </Tab.Navigator>
   );
