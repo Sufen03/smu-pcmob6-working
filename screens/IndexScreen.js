@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity, FlatList, RefreshControl} from "react-native";
+import { Text, View, TouchableOpacity, FlatList, RefreshControl, Image} from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import axios from "axios";
 import { API, API_POSTS } from "../constants/API";
@@ -28,10 +28,10 @@ export default function IndexScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    console.log("Setting up nav listener");
+    
     // Check for when we come back to this screen
     const removeListener = navigation.addListener("focus", () => {
-      console.log("Running nav listener");
+      
       getPosts();
     });
     getPosts();
@@ -43,11 +43,11 @@ export default function IndexScreen({ navigation, route }) {
       const response = await axios.get(API + API_POSTS, {
         headers: { Authorization: `JWT ${token}` },
       })
-      console.log(response.data);
+      // 
       setPosts(response.data);
       return "completed"
     } catch (error) {
-      console.log(error.response.data);
+      
       if (error.response.data.error = "Invalid token") {
         navigation.navigate("SignInSignUp");
       }
@@ -65,15 +65,15 @@ export default function IndexScreen({ navigation, route }) {
   }
 
   async function deletePost(id) {
-    console.log("Deleting " + id);
+    
     try {
       const response = await axios.delete(API + API_POSTS + `/${id}`, {
         headers: { Authorization: `JWT ${token}` },
       })
-      console.log(response);
+      
       setPosts(posts.filter((item) => item.id !== id));
     } catch (error) {
-      console.log(error)
+      
     }
   }
 
@@ -88,14 +88,18 @@ export default function IndexScreen({ navigation, route }) {
             paddingBottom: 20,
             borderBottomColor: "#ccc",
             borderBottomWidth: 1,
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "space-between",
           }}>
           <Text style={styles.text}>{item.title}</Text>
-          <TouchableOpacity onPress={() => deletePost(item.id)}>
-            <FontAwesome name="trash" size={26} color="#a80000" />
+          <View style={{flexDirection: 'row'}}>
+          <Image style={{width: 100, height: 100}} source={{uri: item.image}} />
+          <TouchableOpacity onPress={() => deletePost(item.id)} style={{marginLeft: "auto", marginTop: 60}}>
+            <FontAwesome name="trash" size={40} color="#a80000" />
           </TouchableOpacity>
+          </View>
         </View>
+
       </TouchableOpacity>
     );
   }
@@ -103,6 +107,7 @@ export default function IndexScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <FlatList
+        
         data={posts}
         renderItem={renderItem}
         style={{ width: "100%" }}

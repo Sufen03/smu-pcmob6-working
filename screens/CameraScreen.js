@@ -4,9 +4,9 @@ import { Camera } from "expo-camera";
 import { FontAwesome } from "@expo/vector-icons";
 import { darkStyles, lightStyles } from "../styles/commonStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadPicAction } from "../redux/ducks/accountPref";
+import { updatePicAction, uploadPicAction } from "../redux/ducks/accountPref";
 
-export default function CameraScreen({ navigation }) {
+export default function CameraScreen({ navigation, route }) {
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const styles = isDark ? darkStyles : lightStyles;
   const dispatch = useDispatch();
@@ -28,11 +28,31 @@ export default function CameraScreen({ navigation }) {
   }
 
   async function takePicture() {
+    const fromCreate = route.params?.fromCreate
+    const fromEdit = route.params?.fromEdit
+    const post = route.params?.post
+    
+
     const photo = await cameraRef.current.takePictureAsync();
-    // console.log(photo)
-    console.log(photo);
+    // 
+    if (fromCreate){
+      // if (from create screen)
+    const { uri } = photo;
+    navigation.navigate("Add", {'image': uri })
+    } 
+    else if(fromEdit){
+      const { uri } = photo;
+      dispatch({ ...dispatch(updatePicAction()), payload: photo.uri });
+    navigation.navigate("Edit")
+    }
+    else {
+        // if (from account screen)
     dispatch({ ...dispatch(uploadPicAction()), payload: photo.uri });
     navigation.navigate("Account");
+    }
+    
+    
+
   }
 
   useEffect(() => {

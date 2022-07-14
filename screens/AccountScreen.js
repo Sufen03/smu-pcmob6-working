@@ -43,24 +43,24 @@ export default function AccountScreen({ navigation }) {
   }
   
   async function getUsername() {
-    console.log("---- Getting user name ----");
-    console.log(`Token is ${token}`);
+    
+    
     try {
       const response = await axios.get(API + API_WHOAMI, {
         headers: { Authorization: `JWT ${token}` },
       });
-      console.log("Got user name!");
+      
       setUsername(response.data.username);
     } catch (error) {
-      console.log("Error getting user name");
+      
       if (error.response) {
-        console.log(error.response.data);
+        
         if (error.response.data.status_code === 401) {
           signOut();
           navigation.navigate("SignInSignUp");
         }
       } else {
-        console.log(error);
+        
       }
       // We should probably go back to the login screen???
     }
@@ -77,10 +77,10 @@ export default function AccountScreen({ navigation }) {
   }
 
   useEffect(() => {
-    console.log("Setting up nav listener");
+    
     // Check for when we come back to this screen
     const removeListener = navigation.addListener("focus", () => {
-      console.log("Running nav listener");
+      
       setUsername(<ActivityIndicator />);
       getUsername();
     });
@@ -100,7 +100,7 @@ export default function AccountScreen({ navigation }) {
         style={{ width: picSize, height: picSize, borderRadius: 200 }}
       />
       </TouchableWithoutFeedback>
-      <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
+      <TouchableOpacity onPress={() => navigation.navigate("Camera", {'fromCreate': false})}>
         <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
           {" "}
           No profile picture. Click to take one.{" "}

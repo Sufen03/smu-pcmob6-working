@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, UIManager, LayoutAnimation, ActivityIndicator, Keyboard } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, UIManager, LayoutAnimation, ActivityIndicator, Keyboard, Image } from 'react-native';
 import { API, API_LOGIN, API_SIGNUP } from '../constants/API';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -20,7 +20,7 @@ export default function SignInSignUpScreen({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   async function login() {
-    console.log("---- Login time ----");
+    
     Keyboard.dismiss();
 
     try {
@@ -29,15 +29,15 @@ export default function SignInSignUpScreen({ navigation }) {
         username,
         password,
       });
-      console.log("Success logging in!");
-      // console.log(response);
+      
+      // 
       dispatch({...logInAction(), payload: response.data.access_token});
       setLoading(false);
       navigation.navigate("Logged In");
     } catch (error) {
       setLoading(false);
-      console.log("Error logging in!");
-      console.log(error);
+      
+      
       setErrorText(error.response.data.description);
     }
   }
@@ -57,20 +57,24 @@ export default function SignInSignUpScreen({ navigation }) {
           setErrorText(response.data.Error);
           setLoading(false);
         } else {
-          console.log("Success signing up!");
+          
           setLoading(false);
           login();
         }
       } catch (error) {
         setLoading(false);
-        console.log("Error logging in!");
-        console.log(error.response);
+        
+        
         setErrorText(error.response.data.description);
       }
     }
   }
   return (
     <View style={styles.container}>
+      <Image
+          style={{resizeMode:'contain', height: 300, width: 500}}
+          source={require('../assets/imageedit_1_3847856363.png')}
+        />
       <Text style={styles.title}>
         {isLogIn ? "Log In" : "Sign Up"}
       </Text>

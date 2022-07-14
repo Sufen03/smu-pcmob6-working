@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { commonStyles, lightStyles, darkStyles } from "../styles/commonStyles";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 export default function ShowScreen({ navigation, route }) {
   const token = useSelector((state)=>state.auth.token);
-  const [post, setPost] = useState({title: "", content: ""});
+  const [post, setPost] = useState({title: "", content: "", id: ''});
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
 
@@ -28,15 +28,15 @@ export default function ShowScreen({ navigation, route }) {
 
   async function getPost() {
     const id = route.params.id
-    console.log(id)
+    
     try {
       const response = await axios.get(API + API_POSTS + "/" + id, {
         headers: { Authorization: `JWT ${token}` },
       })
-      console.log(response.data);
+ 
       setPost(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      
       if (error.response.data.error = "Invalid token") {
         navigation.navigate("SignInSignUp");
       }
@@ -51,6 +51,7 @@ export default function ShowScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.text, { margin: 40 }]}>{post.title}</Text>
+      <Image style={{resizeMode : 'stretch', marginLeft: 22 ,width: "90%", height: 250}} source={{uri: post.image}}/>
       <Text style={[styles.content, styles.text, { margin: 20 }]}>{post.content}</Text>
     </View>
   );

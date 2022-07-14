@@ -1,38 +1,44 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { StyleSheet, Text, View, TextInput, TextEdit, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TextInput, TextEdit, TouchableOpacity, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { API, API_CREATE, API_POSTS, PUT } from "../constants/API";
 import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 
 export default function EditScreen({ navigation, route }) {
-  // const [post, setPost] = useState({ title: "", content: "" });
+  const [post, setPost] = useState('');
   //const [put, setPost] = useState({ title: "", content: "" });
+  const picture = useSelector((state) => state.accountPrefs.postPicture);
+  console.log('picute:', picture)
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState('');
+  const [id, setId] = useState('');
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const token = useSelector((state) => state.auth.token);
   const isDark = useSelector((state) => state.accountPrefs.isDark);
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
+  
 
   useEffect(() => {
-    // getPost();
     const post = route.params.post;
     setTitle(post.title)
     setContent(post.content)
+    setImage(post.image)
+    setId(post.id)
+
   }, []);
 
   async function getPost() {
-    const id = route.params.id;
-    console.log(id);
+    
     try {
       const response = await axios.get(API + API_POSTS + "/" + id, {
         headers: { Authorization: `JWT ${token}` },
       });
-      console.log(response.data);
+      
       setPost(response.data);
     } catch (error) {
-      console.log(error.response.data);
+      
       if ((error.response.data.error = "Invalid token")) {
         navigation.navigate("SignInSignUp");
       }
@@ -60,6 +66,12 @@ export default function EditScreen({ navigation, route }) {
           value={content}
           onChangeText={(text) => setContent(text)}
         />
+        
+        <TouchableOpacity onPress={() => navigation.navigate("blogCamera", {'fromEdit': true, post})}>
+          <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
+          Edit your image.
+          </Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, { marginTop: 20 }]}
           onPress={savePost}
@@ -74,17 +86,20 @@ export default function EditScreen({ navigation, route }) {
     const post = {
       title: title,
       content: content,
+      id: id,
+      image: picture ?? image,
     };
-    const id = route.params.post.id
+    console.log('savepost:', post)
+  
     try {
-      console.log(token);
+      
       const response = await axios.put(API + API_POSTS + "/" + id, post, {
         headers: { Authorization: `JWT ${token}` },
       });
-      console.log(response.data);
+      
       navigation.navigate("Index");
     } catch (error) {
-      console.log(error);
+      
     }
   }
 
