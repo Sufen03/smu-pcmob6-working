@@ -38,7 +38,6 @@ export default function AccountScreen({ navigation }) {
       duration: 3500,
       friction: 2,
       tension: 140,
-      useNativeDriver: false
     }).start()
   }
   
@@ -90,7 +89,7 @@ export default function AccountScreen({ navigation }) {
 
   return (
     <View style={[styles.container, { alignItems: "center" }]}>
-      <Text style={[styles.title, styles.text, { marginTop: 30 }]}>
+      <Text style={[styles.title, styles.text, { marginTop: 30, fontSize: 42 }]}>
         {" "}
         Hello {username} !
       </Text>
