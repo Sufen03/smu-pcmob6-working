@@ -51,7 +51,7 @@ export default function ShowScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.text, { margin: 40 }]}>{post.title}</Text>
-      <Image style={{resizeMode : 'stretch', marginLeft: 22 ,width: "90%", height: 250}} source={{uri: post.image}}/>
+      <Image style={{resizeMode : 'cover', marginLeft: 22 ,width: "90%", height: 250}} source={{uri: post.image}}/>
       <Text style={[styles.content, styles.text, { margin: 20 }]}>{post.content}</Text>
     </View>
   );
